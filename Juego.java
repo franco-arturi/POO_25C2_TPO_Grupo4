@@ -138,13 +138,11 @@ public class Juego {
         System.out.println("Cantidad de monedas: $"+jugador.getMonedas());
         tienda.mostrarBaculos();
         //Agregar un chequeo de monedas.
-        if (jugador.getMonedas()>tienda.comprarBaculo(1).getPrecio()){
-            jugador.setBaculo(tienda.comprarBaculo(1));
-            System.out.println("✅ Has comprado un nuevo báculo.");
-        }
-        else{
-            System.out.println("❌ No tienes suficientes monedas para comprar ese báculo.");
-        }
+
+        tienda.comprarBaculo(1,jugador);
+        System.out.println("✅ Has comprado un nuevo báculo.");
+
+
 
     }
 

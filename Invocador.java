@@ -7,9 +7,8 @@ public class Invocador extends Mago {
     }
     //Setea el poder Magico del hechizero especificamente.
 
-    @Override
-    public void setPoderMagico() {
-        poderMagico = (baculo.getPoderBaculo() + energiaMagica + cantCriaturas);
+    public int getPoderMagico() {
+        return (baculo.getPoderBaculo() + energiaMagica + cantCriaturas);
     }
     public void crearCriaturas() {
         cantCriaturas++;

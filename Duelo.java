@@ -2,32 +2,28 @@ public class Duelo {
     private Mago mago;
     private Enemigo enemigo;
     private int contDamage;
-    private int auxPuntosVida;
 
     public Duelo(Mago mago, Enemigo enemigo) {
         this.mago = mago;
         this.enemigo = enemigo;
-        this.auxPuntosVida = mago.getPuntosVida();
+        this.contDamage = 0;
     }
 
     public boolean batalla(){
-        while(mago.getPuntosVida()>0 && enemigo.getPuntosVida()>0){
-            enemigo.setPuntosVida(-mago.atacar());
-            mago.setPuntosVida(-enemigo.getPoderMagico());
-            contDamage = contDamage + enemigo.getPoderMagico();
+        while(mago.isVivo() && enemigo.isVivo()){
+            enemigo.recibirDaño(mago.atacar());
+            mago.recibirDaño(enemigo.getPoderMagico());
+            contDamage += enemigo.getPoderMagico();
         }
-        if(mago.getPuntosVida()<0){
+        if(!mago.isVivo()){
             return false;
         }
-        mago.setNivel(experienciaObtenida());
-        mago.setMonedas(100);
-        mago.setPuntosVida(-mago.getPuntosVida());
-        mago.setPuntosVida(auxPuntosVida);
+        mago.victoriaDuelo(experienciaObtenida(), 100);
         return true;
     }
 
     public int experienciaObtenida(){
-        return (enemigo.getPoderMagico()*2)-contDamage;
+        return (enemigo.experienciaBruta())-contDamage;
     }
 
 }

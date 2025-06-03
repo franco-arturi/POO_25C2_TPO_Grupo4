@@ -6,8 +6,8 @@ public class HechizeroElemental extends Mago {
     }
     //Setea el poder Magico del hechizero especificamente.
 
-    @Override
-    public void setPoderMagico() {
-        poderMagico = (baculo.getPoderBaculo() * energiaMagica)/2;
+
+    public int getPoderMagico() {
+        return (baculo.getPoderBaculo() * energiaMagica)/2;
     }
 }

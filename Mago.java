@@ -1,7 +1,8 @@
-public class Mago {
-    int poderMagico= 0;//Cambia como lo calculamos en cada subclase.
+public abstract class Mago {
+    private boolean vivo = true;
     int experiencia= 0;
     int puntosVida= 250;
+    int vidaAux = 250;
     int energiaMagica;//Cambia el valor base para cada subclase.
     int monedas = 10000;
     Baculo baculo;
@@ -13,8 +14,7 @@ public class Mago {
 
 
     //Cambia en cada subclase.
-    public void setPoderMagico() {
-    }
+    public abstract int getPoderMagico();
 
 
     //Iguales para todas las subclases.
@@ -27,9 +27,9 @@ public class Mago {
     public void setPuntosVida(int puntos) {
         puntosVida = puntosVida + puntos;
     }
-    public void setBaculo(Baculo baculoNuevo) {
+    public void comprar(Baculo baculoNuevo) {
         baculo = baculoNuevo;
-        setMonedas(-baculo.getPrecio());
+        monedas -= baculoNuevo.getPrecio();
     }
     public int getPuntosVida(){
         return puntosVida;
@@ -47,7 +47,24 @@ public class Mago {
         return energiaMagica;
     }
     public int atacar() {
-        setPoderMagico();
-        return poderMagico;
+        return getPoderMagico();
+    }
+    public void recibirDaño(int puntosVida){
+        this.puntosVida -= puntosVida;
+        if(puntosVida < 0){
+            vivo = false;
+        }
+    }
+    public void victoriaDuelo(int experiencia, int monedas){
+        this.experiencia += experiencia;
+        this.monedas += monedas;
+        this.puntosVida = vidaAux;
+
+    }
+    public boolean isVivo() {
+        return vivo;
+    }
+    public boolean puedeComprar(Baculo baculo) {
+        return baculo.getPrecio() <= this.monedas;
     }
 }
