@@ -6,6 +6,8 @@ public abstract class Mago {
     int energiaMagica;//Cambia el valor base para cada subclase.
     int monedas = 10000;
     Baculo baculo;
+    Capa capa;
+    int duelosGanados = 0;
 
     public Mago(int energiaMagica) {
         this.energiaMagica = energiaMagica;
@@ -47,7 +49,7 @@ public abstract class Mago {
         return energiaMagica;
     }
     public int atacar() {
-        return getPoderMagico();
+        return baculo.getPoderBaculo();
     }
     public void recibirDaño(int puntosVida){
         this.puntosVida -= puntosVida;
@@ -59,6 +61,7 @@ public abstract class Mago {
         this.experiencia += experiencia;
         this.monedas += monedas;
         this.puntosVida = vidaAux;
+        duelosGanados++;
 
     }
     public boolean isVivo() {
@@ -66,5 +69,16 @@ public abstract class Mago {
     }
     public boolean puedeComprar(Baculo baculo) {
         return baculo.getPrecio() <= this.monedas;
+    }
+    public void setCapa(Capa capa) { // NUEVO
+        this.capa = capa;
+    }
+
+    public Capa getCapa() { // NUEVO
+        return capa;
+    }
+
+    public int getDuelosGanados() { // NUEVO
+        return duelosGanados;
     }
 }
