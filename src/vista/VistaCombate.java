@@ -1,5 +1,6 @@
 package vista;
 
+import DTO.DueloDto;
 import DTO.EnemigoDto;
 import controlador.JuegoControlador;
 import modelo.*;
@@ -26,11 +27,11 @@ public class VistaCombate extends JFrame {
 
 
         // Panel de información del enemigo
-        JuegoControlador.crearDuelo();
-        EnemigoDto eneAux = JuegoControlador.getEnemigo();
+        DueloDto duelo = JuegoControlador.getDuelo();
+
         JPanel panelInfo = new JPanel(new GridLayout(2, 1));
-        lblNombreEnemigo = new JLabel("Enemigo: Poder "+ eneAux.getEnergiaMagica());
-        lblPoderEnemigo = new JLabel("Vida inicial: " + eneAux.getPuntosVida());
+        lblNombreEnemigo = new JLabel("Enemigo: Poder "+ duelo.getPoderEnemigo());
+        lblPoderEnemigo = new JLabel("Vida inicial: " + duelo.getVidaEnemigo());
         panelInfo.add(lblNombreEnemigo);
         panelInfo.add(lblPoderEnemigo);
 
@@ -43,8 +44,8 @@ public class VistaCombate extends JFrame {
         btnIniciar = new JButton("Iniciar Combate");
         btnIniciar.addActionListener((ActionEvent e) -> {
 //            modeloTabla.setRowCount(0);  // Limpiar tabla
-            boolean partida = JuegoControlador.iniciarDuelo();
-            int[][] historial = JuegoControlador.getHistorialDuelo();
+            boolean partida = duelo.getVictoria();
+            int[][] historial = duelo.getHistorial();
             int cont = 0;
             while(historial[cont][0]>0 && historial[cont][1]>0){
                 modeloTabla.addRow(new Object[]{historial[cont][0],historial[cont][1]});
@@ -52,12 +53,20 @@ public class VistaCombate extends JFrame {
             }
             if(partida){
                 JOptionPane.showMessageDialog(null, "Duelo ganado!!!");
-                VistaPrincipal vis = new VistaPrincipal();
-                vis.setVisible(true);
+                if(JuegoControlador.getCantTurnos()>10){
+                    VistaVictoria vistaVictoria = new VistaVictoria();
+                    vistaVictoria.setVisible(true);
+                }
+                else{
+                    VistaPrincipal vis = new VistaPrincipal();
+                    vis.setVisible(true);
+                }
+
                 dispose();
             }
             else{
-                JOptionPane.showMessageDialog(null, "Duelo perdido!!!");
+                VistaDerrota vis = new VistaDerrota();
+                vis.setVisible(true);
                 dispose();
             }
         });

@@ -9,6 +9,7 @@ public class MagoDto {
     int energiaMagica;
     int monedas;
     BaculoDto baculo;
+    String capa;
 
 
     public MagoDto(Mago mago){
@@ -17,7 +18,8 @@ public class MagoDto {
         this.energiaMagica = mago.getEnergiaMagica();
         this.monedas = mago.getMonedas();
         this.nombre = mago.getNombre();
-        this.baculo = new BaculoDto(mago.getBaculo().getNombre(), mago.getBaculo().getPoderBaculo(),mago.getBaculo().getPrecio());
+        this.baculo = new BaculoDto(mago.getBaculo().getNombre(), mago.getBaculo().getPoderBaculo(),mago.getBaculo().getPrecio(),mago.getBaculo().getDuelosRequeridos());
+        this.capa = mago.getCapa();
     }
 
     public String getNombre() {
@@ -40,6 +42,9 @@ public class MagoDto {
     }
     public int getPoderBaculo(){
         return baculo.getPoder();
+    }
+    public String getCapa() {
+        return capa;
     }
 
 

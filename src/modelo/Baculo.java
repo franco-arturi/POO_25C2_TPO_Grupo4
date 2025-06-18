@@ -4,11 +4,13 @@ public class Baculo {
     private int precio;
     private  int poderBaculo;
     private String nombre;
+    private int duelosRequeridos;
 
-    public Baculo(int pr, int pb, String nm) {
+    public Baculo(int pr, int pb, String nm, int due) {
         this.precio = pr;
         this.poderBaculo = pb;
         this.nombre = nm;
+        this.duelosRequeridos = due;
     }
 
     public int getPrecio() {
@@ -19,5 +21,8 @@ public class Baculo {
     }
     public String getNombre() {
         return nombre;
+    }
+    public int getDuelosRequeridos() {
+        return duelosRequeridos;
     }
 }

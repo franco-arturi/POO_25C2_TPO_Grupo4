@@ -7,17 +7,20 @@ public abstract class Mago {
     private boolean vivo = true;
     private String nombre;
     int experiencia= 10000;
-    int puntosVida= 250;
+    int puntosVida= 250000;
     int vidaAux = 250;
     int energiaMagica;//Cambia el valor base para cada subclase.
     int monedas = 10000;
     Baculo baculo;
+    public int duelosGanados=0;
+    private Capa capa ;
 
     public Mago(int energiaMagica, String nombre, String tipo) {
         this.energiaMagica = energiaMagica;
         this.nombre = nombre;
-        baculo = new Baculo(0,1,"Baculo de mala Calidad");
+        baculo = new Baculo(0,1,"Baculo de mala Calidad",0);
         this.tipo = tipo;
+        this.capa = new CapaBase();
     }
 
 
@@ -29,11 +32,10 @@ public abstract class Mago {
     public void setNivel(int exp) {
         experiencia = experiencia + exp;
     }
-    public void setMonedas(int obtenidas){
-        monedas = monedas + obtenidas;
-    }
     public void setPuntosVida(int puntos) {
+        puntosVida = vidaAux;
         puntosVida = puntosVida + puntos;
+
     }
     public void comprar(Baculo baculoNuevo) {
         baculo = baculoNuevo;
@@ -55,10 +57,10 @@ public abstract class Mago {
         return energiaMagica;
     }
     public int atacar() {
-        return getPoderMagico();
+        return capa.modificarDañoAtaque(getPoderMagico());
     }
     public void recibirDaño(int puntosVida){
-        this.puntosVida -= puntosVida;
+        this.puntosVida -= capa.modificadorDañoEnemigo(puntosVida);
         if(this.puntosVida < 0){
             vivo = false;
         }
@@ -66,14 +68,15 @@ public abstract class Mago {
     public void victoriaDuelo(int experiencia, int monedas){
         this.experiencia += experiencia;
         this.monedas += monedas;
-        this.puntosVida = vidaAux;
+        capa.modificadorFinalDuelo(this);
+        this.duelosGanados++;
 
     }
     public boolean isVivo() {
         return vivo;
     }
     public boolean puedeComprar(Baculo baculo) {
-        return baculo.getPrecio() <= this.monedas;
+        return baculo.getPrecio() <= this.monedas && baculo.getDuelosRequeridos()<=this.duelosGanados;
     }
     public String getNombre() {
         return nombre;
@@ -81,6 +84,7 @@ public abstract class Mago {
     public boolean subirVida(){
         if (getNivel() > 20) {
             setPuntosVida(100);
+            this.vidaAux = this.puntosVida ;
             setNivel(-20);
             return true;
     }
@@ -99,5 +103,18 @@ public abstract class Mago {
     }
     public Baculo getBaculo() {
         return baculo;
+    }
+    public void curar(){
+        this.puntosVida = vidaAux;
+    }
+    public boolean puedeComprarCapa(Capa capa){
+        return capa.getPrecio() <= this.monedas;
+    }
+    public void comprarCapa(Capa capa){
+        this.capa = capa;
+        this.monedas -= capa.getPrecio();
+    }
+    public String getCapa() {
+        return capa.getNombre();
     }
 }

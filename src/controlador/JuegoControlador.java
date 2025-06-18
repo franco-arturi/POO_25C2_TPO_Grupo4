@@ -1,7 +1,9 @@
 package controlador;
 
+import DTO.DueloDto;
 import DTO.EnemigoDto;
 import DTO.MagoDto;
+import DTO.TiendaDto;
 import modelo.fachada.Juego;
 
 public class JuegoControlador {
@@ -34,19 +36,34 @@ public class JuegoControlador {
 
     public static String getTipoMago(){return Juego.getInstancia().getTipoMago();}
 
-    public static boolean iniciarDuelo(){return Juego.getInstancia().iniciarDuelo();}
+
+    //public static boolean iniciarDuelo(){return Juego.getInstancia().iniciarDuelo();}
+
+    public static DueloDto getDuelo(){
+        return Juego.getInstancia().getDuelo();
+    }
 
     public static int getCantTurnos(){return Juego.getInstancia().getCantDuelos();}
 
-    public static int[][] getHistorialDuelo(){
-        return Juego.getInstancia().getHistorialDuelos();
-    };
+//    public static int[][] getHistorialDuelo(){
+//        return Juego.getInstancia().getHistorialDuelos();
+//    };
 
     public static EnemigoDto getEnemigo(){
         return new EnemigoDto("Enemigo",Juego.getInstancia().getEnemigo().getPuntosVida(),Juego.getInstancia().getEnemigo().getPoderMagico());
     }
 
-    public static void crearDuelo(){
-        Juego.getInstancia().crearDuelo();
+//    public static void crearDuelo(){
+//        Juego.getInstancia().crearDuelo();
+//    }
+
+    public static TiendaDto getTienda(){
+        return Juego.getInstancia().getTienda();
     }
+
+    public static boolean comprarBaculo(String nombre){
+        return Juego.getInstancia().comprarBaculo(nombre);
+    }
+
+    public static boolean comprarCapa(String nombre){return Juego.getInstancia().comprarCapa(nombre);}
 }

@@ -8,31 +8,65 @@ package modelo;
 *
 * */
 public class TiendaBaculos {
-    private Baculo[] baculos = new Baculo[5];
+    private Baculo[] baculos = new Baculo[3];
+    private Capa[] capas = new Capa[2];
 
-    public void crearCatalogo(){
-        baculos[0] = new Baculo(100,5,"Báculo de Roble Antiguo");
-        baculos[1] = new Baculo(250,10,"Báculo de Cristal Arcano");
-        baculos[2] = new Baculo(600,15,"Báculo de Cristal Arcano");
-        baculos[3] = new Baculo(1200,20,"Báculo del Vacío Silente");
-        baculos[4] = new Baculo(2500,25,"Báculo del Archimago Supremo");
+    public void crearCatalogoBaculos(){
+        baculos[0] = new Baculo(100,50,"Báculo Elemental",2);
+        baculos[1] = new Baculo(250,150,"Báculo Resonancia",5);
+        baculos[2] = new Baculo(600,300,"Báculo Ancestral",8);
     }
 
-    public void mostrarBaculos(){
+    public void crearCatalogoCapas(){
+        capas[0]= new CapaInvisibilidad();
+        capas[1]= new CapaRecuperacion();
+
+    }
+
+    public Baculo[] getBaculos(){
+        return baculos;
+    }
+
+    public Capa[] getCapas(){
+        return capas;
+    }
+
+    public int buscarIndiceBaculoPorNombre(String nombreBuscado) {
         for (int i = 0; i < baculos.length; i++) {
             Baculo b = baculos[i];
-            System.out.println("[" + i + "] ✦ " + b.getNombre());
-            System.out.println("    🧪 Poder mágico : " + b.getPoderBaculo());
-            System.out.println("    💰 Precio       : $" + b.getPrecio());
-            System.out.println("-----------------------------------");
+            if (b != null && b.getNombre().equals(nombreBuscado)) {
+                return i;
+            }
         }
+        return -1; // No encontrado
     }
 
-    public void comprarBaculo(int index, Mago mago){
-        if(mago.puedeComprar(baculos[index])){
-            mago.comprar(baculos[index]);
+    public int buscarIndiceCapaPorNombre(String nombreCapa) {
+        for (int i = 0; i < capas.length; i++) {
+            Capa c = capas[i];
+            if (c != null && c.getNombre().equals(nombreCapa)) {
+                return i;
+            }
         }
+        return -1;
     }
 
+    public boolean comprarBaculo(String nomBac, Mago mago){
+        int indice = buscarIndiceBaculoPorNombre(nomBac);
+        if(mago.puedeComprar(baculos[indice])){
+            mago.comprar(baculos[indice]);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean comprarCapa(String nomCapa, Mago mago){
+        int indice = buscarIndiceCapaPorNombre(nomCapa);
+        if(mago.puedeComprarCapa(capas[indice])){
+            mago.comprarCapa(capas[indice]);
+            return true;
+        }
+        return false;
+
+    }
 }

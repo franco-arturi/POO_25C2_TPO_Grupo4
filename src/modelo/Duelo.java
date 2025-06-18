@@ -1,10 +1,14 @@
 package modelo;
 
+import DTO.DueloDto;
+
+
 public class Duelo {
     private Mago mago;
     private Enemigo enemigo;
     private int contDamage;
     private int[][] historial;
+    private DueloDto dueDto;
 
     public Duelo(Mago mago, Enemigo enemigo) {
         this.mago = mago;

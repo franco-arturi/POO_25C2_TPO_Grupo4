@@ -53,7 +53,7 @@ public class VistaPrincipal extends JFrame {
 
         btnTienda.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                VistaTienda vista = new VistaTienda();
+                VistaTiendaAux vista = new VistaTiendaAux();
                 vista.setVisible(true);
                 dispose();
             }
@@ -73,7 +73,7 @@ public class VistaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Simulación de estadísticas (modificá esto según tu DTO o controlador)
                 String estadisticas = "Nombre: "+ JuegoControlador.getMago().getNombre() + "\nVida: "+JuegoControlador.getMago().getPuntosVida()+"\nEnergia Magia: "+JuegoControlador.getMago().getEnergiaMagica()+
-                        "\nMonedas: "+JuegoControlador.getMago().getMonedas()+"\nExperiencia: "+JuegoControlador.getMago().getExperiencia()+"\nBaculo: "+JuegoControlador.getMago().getNombreBaculo()+"\n        Poder: "+JuegoControlador.getMago().getPoderBaculo();
+                        "\nMonedas: "+JuegoControlador.getMago().getMonedas()+"\nExperiencia: "+JuegoControlador.getMago().getExperiencia()+"\nBaculo: "+JuegoControlador.getMago().getNombreBaculo()+"\n        Poder: "+JuegoControlador.getMago().getPoderBaculo()+"\nBaculo: "+JuegoControlador.getMago().getCapa();
                 JOptionPane.showMessageDialog(null, estadisticas, "Estadísticas del mago", JOptionPane.INFORMATION_MESSAGE);
             }
         });

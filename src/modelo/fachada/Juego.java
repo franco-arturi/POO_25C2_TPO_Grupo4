@@ -1,6 +1,9 @@
 package modelo.fachada;
 
+import DTO.DueloDto;
+import DTO.EnemigoDto;
 import DTO.MagoDto;
+import DTO.TiendaDto;
 import modelo.*;
 import vista.VistaMenuInicial;
 
@@ -10,18 +13,17 @@ import java.util.Random;
 
 public class Juego {
     private static Juego instancia;
-    private boolean estadoPartida;
     private Mago jugador;
     private int cantDuelos = 1;
     private TiendaBaculos tienda;
-    private int cantTurnos = 0;
     private int[][] historial;
     private Enemigo eneAux;
     private Duelo duelo;
 
     private Juego() {
         tienda = new TiendaBaculos();
-        tienda.crearCatalogo();
+        tienda.crearCatalogoBaculos();
+        tienda.crearCatalogoCapas();
     }
 
     //ESTO ES PARA EL SINGLETON, IMPORTANTISIMO PORQUE NO QUEREMOS CORRER EL RIESGO DE QUE
@@ -66,30 +68,17 @@ public class Juego {
         return cantDuelos;
     }
 
-    /// ////////////////////////////////
+    public TiendaDto getTienda(){
+        return new TiendaDto(tienda.getBaculos(), tienda.getCapas());
+    }
 
+    public boolean comprarBaculo(String nombre){
+        return tienda.comprarBaculo(nombre, jugador);
+    }
 
-
-
-//    public boolean menuJuego( int opcion){
-//
-//        if (cantDuelos < 10){}
-//
-//
-//
-//
-//
-//        else {
-//            System.out.println("La batalla final iniciara...");
-//            boolean victoria=iniciarDuelo();
-//            if (victoria){
-//                System.out.println("El jugador es Victorioso contra el Archimago.");
-//            }
-//            else {
-//                System.out.println("El jugador es derrotado por el Archimago.");
-//            }
-//        }
-//    }
+    public boolean comprarCapa(String nombre){
+        return tienda.comprarCapa(nombre, jugador);
+    }
 
     public Enemigo crearEnemigo(){
         Enemigo elegido;
@@ -113,10 +102,9 @@ public class Juego {
 
         if (!duelo.batalla()){
             estadoAux = false;
-            System.out.println("\n💀 Has sido derrotado en combate...\n" );
+
         }
         else {
-            System.out.println("\n🏆 ¡Victoria! Has vencido al enemigo número: " + cantDuelos + "!\n");
             estadoAux = true;
             cantDuelos++;
         }
@@ -125,19 +113,14 @@ public class Juego {
         return estadoAux;
     }
 
-    public void interactuarTienda(){
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("🏪 CATÁLOGO DE BÁCULOS MÁGICOS");
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("Cantidad de monedas: $"+jugador.getMonedas());
-        tienda.mostrarBaculos();
-        //Agregar un chequeo de monedas.
+    public DueloDto getDuelo(){
+        crearDuelo();
+        DueloDto duelo = new DueloDto(new EnemigoDto("a",eneAux.getPuntosVida(),eneAux.getPoderMagico()));
+        duelo.setVictoria(iniciarDuelo());
 
-        tienda.comprarBaculo(1,jugador);
-        System.out.println("✅ Has comprado un nuevo báculo.");
+        duelo.setHistorial(historial);
 
-
-
+        return duelo;
     }
 
     public int[][] getHistorialDuelos() {
