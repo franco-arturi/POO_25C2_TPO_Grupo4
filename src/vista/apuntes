@@ -1,0 +1,13 @@
+Que vistas necesito?
+* Menu de inicio(Crear el personaje, darle un nombre)
+    -Text Fiel para el nombre.
+    -Botones con los nombres de la clase para seleccionarlas.
+* Menu de Juego(Seleccionar que accion tomar)
+* Tienda de Baculos(Mostrar los baculos disponibles)
+* Duelo(Mostrar el intercambio de ataques)
+*Subida de nivel(Mostrar que atributo subir de nivel)
+
+
+Menu Principal
+Botones de Duelo, Abrir Tienda y subir de nivel.
+Un numero que indica el turno.
