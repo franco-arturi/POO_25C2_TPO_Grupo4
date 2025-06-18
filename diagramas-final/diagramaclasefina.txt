@@ -1,0 +1,161 @@
+@startuml
+title Diagrama de Clases – Academia de Hechicería
+
+'===== ENUMERACIONES =====
+enum Especialidad <<enumeration>> {
+  HECHICERO_ELEMENTAL
+  ILUSIONISTA
+  INVOCADOR
+}
+
+enum NivelDificultad <<enumeration>> {
+  FACIL
+  MEDIO
+  DIFICIL
+}
+
+'===== CLASES BASE =====
+abstract class Combatiente <<entity>> {
+  - puntosVida: int
+  + recibirDanio(danio: int): void
+  + estaVivo(): boolean
+}
+
+'===== UTILIDAD DE COMBATE =====
+class Combate <<utility>> {
+  + ejecutar(atacante: Combatiente, defensor: Combatiente): ResultadoCombate
+}
+
+'===== CLASE MAGO =====
+abstract class Mago <<entity>> extends Combatiente {
+  - nombre: String
+  - especialidad: Especialidad
+  - energiaMagica: int
+  - poderBase: int
+  - puntosExperiencia: int
+  - monedas: int
+  - duelosGanados: int
+  - baculo: Baculo
+  - capa: Capa
+
+  + Mago(nombre: String, especialidad: Especialidad, energiaMagica: int, poderBase: int)
+  + calcularPoderMagico(): int
+  + ganarExperiencia(exp: int): void
+  + setBaculo(b: Baculo): void
+  + getBaculo(): Baculo
+  + setCapa(c: Capa): void
+  + getCapa(): Capa
+  + comprarBaculo(b: Baculo): boolean
+  + comprarCapa(c: Capa): boolean
+  + subirVida(): boolean
+  + subirEnergia(): boolean
+  + curar(): void
+  + getMonedas(): int
+}
+
+'===== SUBCLASES DE MAGO =====
+class HechiceroElemental <<entity>> extends Mago {
+  + HechiceroElemental(nombre: String, especialidad: Especialidad, energiaMagica: int, poderBase: int)
+  + calcularPoderMagico(): int
+}
+
+class Ilusionista <<entity>> extends Mago {
+  + Ilusionista(nombre: String, especialidad: Especialidad, energiaMagica: int, poderBase: int)
+  + calcularPoderMagico(): int
+}
+
+class Invocador <<entity>> extends Mago {
+  - criaturasInvocadas: int
+  + Invocador(nombre: String, especialidad: Especialidad, energiaMagica: int, poderBase: int)
+  + invocarCriatura(): void
+  + calcularPoderMagico(): int
+  + getCantCriaturas(): int
+}
+
+'===== CLASE RIVAL =====
+class Rival <<entity>> extends Combatiente {
+  - nivel: NivelDificultad
+  - poderMagico: int
+
+  + Rival(nivel: NivelDificultad)
+  + calcularPoderMagico(): int
+  + experienciaBruta(): int
+}
+
+'===== CLASE BACULO =====
+class Baculo <<entity>> {
+  - nombre: String
+  - poderBaculo: int
+  - precio: int
+  - duelosRequeridos: int
+
+  + Baculo(nombre: String, poderBaculo: int, precio: int, duelosRequeridos: int)
+  + getNombre(): String
+  + getPoderBaculo(): int
+  + getPrecio(): int
+  + getDuelosRequeridos(): int
+}
+
+'===== CLASE CAPA =====
+class Capa <<entity>> {
+  - nombre: String
+  - precio: int
+
+  + Capa(nombre: String, precio: int)
+  + modificadorDanioEnemigo(d: int): int
+  + modificadorFinalDuelo(m: Mago): void
+  + modificarDanioAtaque(a: int): int
+  + getNombre(): String
+  + getPrecio(): int
+}
+
+'===== CLASE TIENDA =====
+class Tienda <<entity>> {
+  - baculosDisponibles: List<Baculo>
+  - capasDisponibles: List<Capa>
+
+  + Tienda(baculos: List<Baculo>, capas: List<Capa>)
+  + hayBaculosDisponibles(): boolean
+  + ofrecerBaculo(): Baculo
+  + hayCapasDisponibles(): boolean
+  + ofrecerCapa(): Capa
+}
+
+'===== CLASE RESULTADO =====
+class ResultadoCombate <<value>> {
+  - ganador: Combatiente
+  - experienciaGanada: int
+
+  + ResultadoCombate(ganador: Combatiente, experiencia: int)
+  + getGanador(): Combatiente
+  + getExperienciaGanada(): int
+}
+
+'===== CONTROLADOR DE FLUJO =====
+class Juego <<controller>> {
+  - jugador: Mago
+  - rivales: List<Rival>
+  - tienda: Tienda
+
+  + Juego(jugador: Mago, rivales: List<Rival>, tienda: Tienda)
+  + participarEnDuelo(): ResultadoCombate
+  + visitarTienda(): void
+  + mejorarHabilidades(): void
+  + seleccionarRival(): Rival
+}
+
+'===== RELACIONES =====
+Mago        "1" *-- "1" Baculo     : tiene
+Mago        "1" *-- "1" Capa       : tiene
+Tienda      "1" o-- "*" Baculo     : ofrece
+Tienda      "1" o-- "*" Capa       : ofrece
+
+Juego       "1" --> "1" Mago        : jugador
+Juego       "1" --> "*" Rival       : rivales
+Juego       "1" --> "1" Tienda      : tienda
+Juego       ..> ResultadoCombate   : resultados
+Juego       ..> Combate            : realiza
+
+Mago        ..> Especialidad
+Rival       ..> NivelDificultad
+@enduml

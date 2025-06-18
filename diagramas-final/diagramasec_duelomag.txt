@@ -1,0 +1,74 @@
+@startuml "Diagrama de Secuencia - Participar en duelo mágico (versión definitiva)"
+
+actor Jugador
+participant Juego <<controller>>
+participant Combate <<utility>>
+participant Mago <<entity>>
+participant Baculo <<entity>>
+participant Rival <<entity>>
+participant ResultadoCombate <<value>>
+
+' Inicio de la interacción
+Jugador -> Juego: participarEnDuelo(): ResultadoCombate
+activate Juego
+
+' Selección del rival
+Juego -> Juego: seleccionarRival(): Rival
+activate Juego
+Juego --> Juego: rival: Rival
+deactivate Juego
+
+' Ejecución del combate
+Juego -> Combate: ejecutar(atacante: Mago, defensor: Rival): ResultadoCombate
+activate Combate
+
+' Cálculo de poder del atacante
+Combate -> Mago: calcularPoderMagico(): int
+activate Mago
+Mago -> Baculo: getPoder(): int
+activate Baculo
+Baculo --> Mago: poderBaculo: int
+deactivate Baculo
+
+deactivate Mago
+
+' Cálculo de poder del defensor
+Combate -> Rival: calcularPoderMagico(): int
+activate Rival
+
+deactivate Rival
+
+' Resolución del combate
+alt poderAtacante > poderDefensor
+    Combate -> Combate: calcularExp(poderAtacante: int, poderDefensor: int): int
+    activate Combate
+    Combate --> Combate: exp: int
+    deactivate Combate
+
+    Combate -> Mago: ganarExperiencia(exp: int)
+    activate Mago
+    deactivate Mago
+else
+    Combate -> Combate: calcularDanio(poderDefensor: int): int
+    activate Combate
+    Combate --> Combate: damage: int
+    deactivate Combate
+
+    Combate -> Rival: recibirDanio(danio: int)
+    activate Rival
+    deactivate Rival
+end
+
+' Creación del resultado
+Combate -> ResultadoCombate: ResultadoCombate(ganador: Combatiente, experienciaGanada: int)
+activate ResultadoCombate
+ResultadoCombate --> Combate: resultado: ResultadoCombate
+deactivate ResultadoCombate
+
+' Retorno al juego y actor
+Combate --> Juego: resultado: ResultadoCombate
+deactivate Combate
+Juego --> Jugador: resultado: ResultadoCombate
+deactivate Juego
+
+@enduml

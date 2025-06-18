@@ -1,0 +1,44 @@
+@startuml
+title Diagrama de Secuencia - Mejorar habilidades
+
+actor Jugador
+participant InterfazJugador
+participant Juego
+participant Mago
+
+' Inicio de la interacción
+Jugador -> Juego : mejorarHabilidades(): void
+activate Juego
+
+' Obtención de experiencia actual
+Juego -> Mago : getPuntosExperiencia(): int
+activate Mago
+Mago --> Juego : exp: int
+
+' Obtención del poder base del mago
+Juego -> Mago : getPoderBase(): int
+Mago --> Juego : poderBase: int
+deactivate Mago
+
+' Lógica de mejora según experiencia y poder base
+alt exp >= (poderBase * 2)
+    ' Aumentar poder base
+    Juego -> Mago : aumentarPoderBase(): void
+    activate Mago
+    deactivate Mago
+
+    ' Reiniciar experiencia
+    Juego -> Mago : resetearExperiencia(): void
+    activate Mago
+    deactivate Mago
+
+    ' Informar éxito al jugador
+    Juego -> InterfazJugador : mostrarMensaje("¡Habilidades mejoradas con éxito!")
+else
+    ' Informar fallo al jugador
+    Juego -> InterfazJugador : mostrarMensaje("Experiencia insuficiente")
+end
+
+' Fin de interacción
+deactivate Juego
+@enduml

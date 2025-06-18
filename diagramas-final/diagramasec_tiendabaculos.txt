@@ -1,0 +1,39 @@
+@startuml "Diagrama de Secuencia - Visitar tienda de báculos (versión definitiva)"
+
+actor Jugador
+participant InterfazJugador <<boundary>>
+participant Juego <<controller>>
+participant Tienda <<entity>>
+participant Mago <<entity>>
+
+' Inicio
+Jugador -> Juego: visitarTienda(): void
+activate Juego
+
+' Obtener báculos
+Juego -> Tienda: getBaculosDisponibles(): List<Baculo>
+activate Tienda
+Tienda --> Juego: baculos
+deactivate Tienda
+
+' Decidir flujo según disponibilidad
+alt baculos.empty()
+    Juego -> InterfazJugador: mostrarMensaje("No hay báculos disponibles")
+else
+    Juego -> InterfazJugador: mostrarOpciones(baculos)
+    activate InterfazJugador
+    Jugador -> InterfazJugador: seleccionarBaculo(): Baculo
+    deactivate InterfazJugador
+
+    InterfazJugador -> Juego: seleccionarBaculo(baculo: Baculo)
+    activate Juego
+    Juego -> Mago: setBaculo(baculo: Baculo)
+    activate Mago
+    deactivate Mago
+
+    Juego -> InterfazJugador: mostrarMensaje("Báculo equipado con éxito")
+    deactivate Juego
+end
+
+deactivate Juego
+@enduml
