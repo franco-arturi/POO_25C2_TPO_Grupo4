@@ -17,12 +17,17 @@ public class VistaTienda extends JFrame {
     private JLabel lblBaculosDisponibles;
     private JLabel lblCapasDisponibles;
     private JLabel lblDuelosFaltantes;
+    
 
     private JButton btnAdquirirBaculo;
     private JButton btnVolver;
 
     private JTable tablaBaculos;
     private DefaultTableModel modeloTabla;
+
+    private JTable tablaEscudos;
+    private DefaultTableModel modeloTablaEscudos;
+    private JButton btnAdquirirEscudo;
 
     public VistaTienda() {
         //Seteo de lo basico.
@@ -52,6 +57,15 @@ public class VistaTienda extends JFrame {
         tablaBaculos = new JTable(modeloTabla);
         JScrollPane scrollTabla = new JScrollPane(tablaBaculos);
 
+        // Tabla de escudos
+        String[] columnasEscudos = {"Nombre", "Descripción"};
+        modeloTablaEscudos = new DefaultTableModel(columnasEscudos, 0);
+        tablaEscudos = new JTable(modeloTablaEscudos);
+        JScrollPane scrollTablaEscudos = new JScrollPane(tablaEscudos);
+
+        // Llenar tabla de escudos
+        modeloTablaEscudos.addRow(new Object[]{"Escudo Defensivo", "Bloquea 20% del daño recibido"});
+
 //        for (BaculoDto baculo : baculosDisponibles) {
 //            Object[] fila = {baculo.getNombre(), baculo.getPoder(), baculo.getPrecio()};
 //            modeloTabla.addRow(fila);
@@ -60,9 +74,11 @@ public class VistaTienda extends JFrame {
         // Panel inferior: botones
         JPanel panelBotones = new JPanel();
         btnAdquirirBaculo = new JButton("Comprar báculo seleccionado");
+        btnAdquirirEscudo = new JButton("Comprar escudo seleccionado");
         btnVolver = new JButton("Volver");
 
         panelBotones.add(btnAdquirirBaculo);
+        panelBotones.add(btnAdquirirEscudo);
         panelBotones.add(btnVolver);
 
         // Acción del botón de comprar báculo
@@ -83,6 +99,24 @@ public class VistaTienda extends JFrame {
             }
 
         });
+        // Acción del botón de comprar escudo
+        btnAdquirirEscudo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int fila = tablaEscudos.getSelectedRow();
+                if (fila >= 0) {
+                    boolean ok = JuegoControlador.comprarEscudo(fila);
+                    if (ok) {
+                        JOptionPane.showMessageDialog(null, "¡Escudo equipado!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo equipar el escudo.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccioná un escudo de la tabla.");
+                }
+            }
+        });
+
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -91,10 +125,14 @@ public class VistaTienda extends JFrame {
                 dispose();
             }
         });
+ 
+        JPanel panelCentral = new JPanel(new GridLayout(1, 2));
+        panelCentral.add(scrollTabla);
+        panelCentral.add(scrollTablaEscudos);
 
         // Armado final
         add(panelInfo, BorderLayout.NORTH);
-        add(scrollTabla, BorderLayout.CENTER);
+        add(panelCentral, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
     }
 }

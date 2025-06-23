@@ -8,7 +8,7 @@ public class Duelo {
     private Enemigo enemigo;
     private int contDamage;
     private int[][] historial;
-    private DueloDto dueDto;
+    private DueloDto dueloDto;
 
     public Duelo(Mago mago, Enemigo enemigo) {
         this.mago = mago;

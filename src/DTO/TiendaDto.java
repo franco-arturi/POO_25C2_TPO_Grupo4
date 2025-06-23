@@ -39,9 +39,6 @@ public class TiendaDto {
             }
         }
 
-
-
-
     }
 
     public BaculoDto[] getBaculos() {

@@ -24,6 +24,7 @@ public class Juego {
         tienda = new TiendaBaculos();
         tienda.crearCatalogoBaculos();
         tienda.crearCatalogoCapas();
+        tienda.crearCatalogoEscudos();
     }
 
     //ESTO ES PARA EL SINGLETON, IMPORTANTISIMO PORQUE NO QUEREMOS CORRER EL RIESGO DE QUE
@@ -78,6 +79,17 @@ public class Juego {
 
     public boolean comprarCapa(String nombre){
         return tienda.comprarCapa(nombre, jugador);
+    }
+
+// devuelve los escudos disponibles en la tienda
+// llama a getescudos() de la tienda para obtener la lista de escudos    
+public Escudo[] getEscudos() {
+        return tienda.getEscudos();
+    }
+//  intenta comprar y equipar el escudo seleccionado al mago.
+// Llama a comprarEscudo(indice, jugador) en la tienda, que intenta comprar el escudo con ese índice y equiparlo al mago (jugador).
+    public boolean comprarEscudo(int indice) {
+        return tienda.comprarEscudo(indice, jugador);
     }
 
     public Enemigo crearEnemigo(){

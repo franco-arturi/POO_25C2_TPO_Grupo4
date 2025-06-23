@@ -10,6 +10,7 @@ public class MagoDto {
     int monedas;
     BaculoDto baculo;
     String capa;
+    String escudo;
 
 
     public MagoDto(Mago mago){
@@ -20,6 +21,8 @@ public class MagoDto {
         this.nombre = mago.getNombre();
         this.baculo = new BaculoDto(mago.getBaculo().getNombre(), mago.getBaculo().getPoderBaculo(),mago.getBaculo().getPrecio(),mago.getBaculo().getDuelosRequeridos());
         this.capa = mago.getCapa();
+        this.escudo = (mago.getEscudo() != null) ? mago.getEscudo().getNombre() : null;;
+        
     }
 
     public String getNombre() {
@@ -45,6 +48,10 @@ public class MagoDto {
     }
     public String getCapa() {
         return capa;
+    }
+
+    public String getEscudo() {
+        return escudo;
     }
 
 

@@ -69,14 +69,23 @@ public class VistaPrincipal extends JFrame {
         });
 
 
-        btnEstadisticas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Simulación de estadísticas (modificá esto según tu DTO o controlador)
-                String estadisticas = "Nombre: "+ JuegoControlador.getMago().getNombre() + "\nVida: "+JuegoControlador.getMago().getPuntosVida()+"\nEnergia Magia: "+JuegoControlador.getMago().getEnergiaMagica()+
-                        "\nMonedas: "+JuegoControlador.getMago().getMonedas()+"\nExperiencia: "+JuegoControlador.getMago().getExperiencia()+"\nBaculo: "+JuegoControlador.getMago().getNombreBaculo()+"\n        Poder: "+JuegoControlador.getMago().getPoderBaculo()+"\nBaculo: "+JuegoControlador.getMago().getCapa();
-                JOptionPane.showMessageDialog(null, estadisticas, "Estadísticas del mago", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+       btnEstadisticas.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        // Siempre obtener el mago actualizado
+        var mago = JuegoControlador.getMago();
+        String escudo = mago.getEscudo();
+        String estadisticas = "Nombre: " + mago.getNombre()
+                + "\nVida: " + mago.getPuntosVida()
+                + "\nEnergia Magia: " + mago.getEnergiaMagica()
+                + "\nMonedas: " + mago.getMonedas()
+                + "\nExperiencia: " + mago.getExperiencia()
+                + "\nBaculo: " + mago.getNombreBaculo()
+                + "\n        Poder: " + mago.getPoderBaculo()
+                + "\nCapa: " + mago.getCapa()
+                + "\nEscudo: " + (escudo != null && !escudo.isEmpty() ? escudo : "Ninguno");
+        JOptionPane.showMessageDialog(null, estadisticas, "Estadísticas del mago", JOptionPane.INFORMATION_MESSAGE);
+    }
+});
 
         panelPrincipal.add(panelTurno, BorderLayout.NORTH);
         panelPrincipal.add(panelBotones, BorderLayout.CENTER);

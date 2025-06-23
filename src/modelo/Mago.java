@@ -7,13 +7,14 @@ public abstract class Mago {
     private boolean vivo = true;
     private String nombre;
     int experiencia= 10000;
-    int puntosVida= 250000;
+    int puntosVida= 2500;
     int vidaAux = 250;
     int energiaMagica;//Cambia el valor base para cada subclase.
     int monedas = 10000;
     Baculo baculo;
-    public int duelosGanados=0;
+    public int duelosGanados=1;
     private Capa capa ;
+    Escudo escudo;
 
     public Mago(int energiaMagica, String nombre, String tipo) {
         this.energiaMagica = energiaMagica;
@@ -117,4 +118,22 @@ public abstract class Mago {
     public String getCapa() {
         return capa.getNombre();
     }
+
+    public Capa getCapaObjeto() {
+        return capa;
+    }
+
+    public void equiparEscudo(Escudo escudo) {
+        this.escudo = escudo;
+    }
+
+    public Escudo getEscudo() {
+        return escudo;
+    }
+
+        public void setMonedas(int monedas) {
+        this.monedas = monedas;
+    }
+
+
 }

@@ -4,15 +4,16 @@ import DTO.DueloDto;
 import DTO.EnemigoDto;
 import DTO.MagoDto;
 import DTO.TiendaDto;
+import modelo.Escudo;
 import modelo.fachada.Juego;
 
 public class JuegoControlador {
-/*
+
     public void hacerAlgo() {
         Juego.getInstancia().iniciarDuelo();
     }
 
- */
+
 
     public static void crearMagoElemental(String nombre){
         Juego.getInstancia().crearMagoElemental(nombre);
@@ -37,7 +38,7 @@ public class JuegoControlador {
     public static String getTipoMago(){return Juego.getInstancia().getTipoMago();}
 
 
-    //public static boolean iniciarDuelo(){return Juego.getInstancia().iniciarDuelo();}
+    public static boolean iniciarDuelo(){return Juego.getInstancia().iniciarDuelo();}
 
     public static DueloDto getDuelo(){
         return Juego.getInstancia().getDuelo();
@@ -45,17 +46,17 @@ public class JuegoControlador {
 
     public static int getCantTurnos(){return Juego.getInstancia().getCantDuelos();}
 
-//    public static int[][] getHistorialDuelo(){
-//        return Juego.getInstancia().getHistorialDuelos();
-//    };
+    public static int[][] getHistorialDuelo(){
+        return Juego.getInstancia().getHistorialDuelos();
+    };
 
     public static EnemigoDto getEnemigo(){
         return new EnemigoDto("Enemigo",Juego.getInstancia().getEnemigo().getPuntosVida(),Juego.getInstancia().getEnemigo().getPoderMagico());
     }
 
-//    public static void crearDuelo(){
-//        Juego.getInstancia().crearDuelo();
-//    }
+    public static void crearDuelo(){
+        Juego.getInstancia().crearDuelo();
+    }
 
     public static TiendaDto getTienda(){
         return Juego.getInstancia().getTienda();
@@ -66,4 +67,14 @@ public class JuegoControlador {
     }
 
     public static boolean comprarCapa(String nombre){return Juego.getInstancia().comprarCapa(nombre);}
+// obtiene la lista de escudos disponibles en la tienda
+    // y devuelve un array de objetos Escudo 
+    public static Escudo[] getEscudos() {
+        return Juego.getInstancia().getEscudos();
+    }
+// intenta comprar y equipar un escudo
+    public static boolean comprarEscudo(int indice) {
+        return Juego.getInstancia().comprarEscudo(indice);
+    }
+
 }
