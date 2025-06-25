@@ -4,10 +4,10 @@ public abstract class Escudo {
 
     protected String nombre;
 
-    public abstract int bloquearDaño(int danio);
-    public int reflejarDanio(int danio) {
-        return 0; // Por defecto no refleja
-    }
+public int bloquearDaño(int danio) {
+    return (int)(danio * 0.8); // Bloquea el 20% del daño
+}
+ 
 
      public String getNombre() {
         return nombre;

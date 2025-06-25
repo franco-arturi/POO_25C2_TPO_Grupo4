@@ -48,6 +48,7 @@ public class VistaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 VistaCombate visCom = new VistaCombate();
                 visCom.setVisible(true);
+                dispose();
             }
         });
 
@@ -67,7 +68,6 @@ public class VistaPrincipal extends JFrame {
                 dispose();
             }
         });
-
 
        btnEstadisticas.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {

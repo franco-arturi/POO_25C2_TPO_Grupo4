@@ -61,11 +61,16 @@ public abstract class Mago {
         return capa.modificarDañoAtaque(getPoderMagico());
     }
     public void recibirDaño(int puntosVida){
-        this.puntosVida -= capa.modificadorDañoEnemigo(puntosVida);
-        if(this.puntosVida < 0){
-            vivo = false;
-        }
+    int danio = puntosVida;
+    if (escudo != null) {
+        danio = escudo.bloquearDaño(danio);
     }
+    danio = capa.modificadorDañoEnemigo(danio);
+    this.puntosVida -= danio;
+    if(this.puntosVida < 0){
+        vivo = false;
+    }
+}
     public void victoriaDuelo(int experiencia, int monedas){
         this.experiencia += experiencia;
         this.monedas += monedas;

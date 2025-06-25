@@ -10,7 +10,7 @@ public class CapaRecuperacion extends Capa{
 
     @Override
     public int modificadorDañoEnemigo(int daño) {
-        return daño + 50;
+        return daño;
     }
 
     @Override
